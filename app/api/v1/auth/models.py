@@ -4,6 +4,7 @@ class User(object):
     """
 
     def __init__(self, username, email_address, password):
+        self.user_id = user_id
         self.username = username
         self.email_address = email_address
         self.password = password
@@ -11,5 +12,6 @@ class User(object):
     def user_signup(self):
         return ''
 
-    def user_login(self):
+    @staticmethod
+    def user_login(username, password):
         return ''
