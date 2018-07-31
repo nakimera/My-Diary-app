@@ -1,22 +1,19 @@
-from app.db import Connection
+from app.db import DatabaseConnection
 
-class User(Connection):
+class User(DatabaseConnection):
     """
     This class defines the app users
     """
 
-    def __init__(self, username, email_address, password):
-        Connection.__init__(self)
+    def __init__(self, username, password, email_address=None):
+        DatabaseConnection.__init__(self)
         self.username = username
         self.email_address = email_address
         self.password = password
 
-    def add_user(self):
-        query = f"""insert into users(username, email_address, password) 
-        values('{self.username}', '{self.email_address}', '{self.password}')"""
-        self.execute_query(query)
-        self.close_connection()
+    def create_user(self):
+        self.add_user()
 
-    @staticmethod
-    def user_login(username, password):
-        return ''
+    def login_user(self):
+        self.fetch_user()
+        
