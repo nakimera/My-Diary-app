@@ -1,4 +1,5 @@
 from flask import Blueprint, make_response
+import psycopg2
 from .models import User
 
 mod = Blueprint('auth', __name__)
