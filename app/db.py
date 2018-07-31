@@ -5,7 +5,7 @@ class Connection:
     def __init__(self):
         self.conn = psycopg2.connect(URL)
 
-    def execute_query(self):
+    def execute_query(query):
         """
         This method executes a query in the database
         """
