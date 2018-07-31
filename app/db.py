@@ -13,7 +13,9 @@ class DatabaseConnection:
         """
         Method that creates the users table if it doesn't exist
         """
-        query = """CREATE TABLE IF NOT EXISTS users
+        
+        query = """
+                    CREATE TABLE IF NOT EXISTS users
                     (user_id SERIAL PRIMARY KEY,
                     username VARCHAR(30) NOT NULL UNIQUE,
                     email_address VARCHAR(50) UNIQUE NOT NULL,
@@ -25,13 +27,21 @@ class DatabaseConnection:
             cur.execute(query)
             self.conn.commit()
 
-        except psycopg2.DatabaseError as ex:
-            self.conn.close()
+        except:
+            psycopg2.DatabaseError as ex:
             print(ex)
+        
+        finally:
+            self.conn.close()
 
 
-    def close_connection(self):
+    def add_user(self):
         """
-        This method closes the database
+        Method that adds a user to the users table
         """
-        self.conn.close()
+
+        query = f"""
+                    INSERT INTO users
+                    (username, email_address, password) 
+                    values('{username}', '{email_address}', '{password}')"
+                """
