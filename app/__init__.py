@@ -1,9 +1,9 @@
 from flask import Flask
-from app.config import configuration
+from app.config import app_config
 
-def create_app(environment):
-    app = Flask(__name__)
-    app.config.from_object(configuration[environment])
+def create_app(config_name):
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(app_config[str(config_name)])
 
     from app.api.v1.auth.views import mod as auth
     from app.api.v1.entries.views import mod as entry
