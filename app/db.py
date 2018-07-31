@@ -13,7 +13,7 @@ class DatabaseConnection:
         """
         Method that creates the users table if it doesn't exist
         """
-        
+
         query = """
                     CREATE TABLE IF NOT EXISTS users
                     (user_id SERIAL PRIMARY KEY,
@@ -45,3 +45,38 @@ class DatabaseConnection:
                     (username, email_address, password) 
                     values('{username}', '{email_address}', '{password}')"
                 """
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(query)
+            self.conn.commit()
+
+        except:
+            psycopg2.DatabaseError as ex:
+            print(ex)
+        
+        finally:
+            self.conn.close()
+
+    def fetch_user(self):
+        """
+        Method that fetches a user from the DB
+        """
+
+        query = """
+                    SELECT * 
+                    FROM users 
+                    WHERE username='{}'
+                """.format(username)
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(query)
+            self.conn.commit()
+
+        except:
+            psycopg2.DatabaseError as ex:
+            print(ex)
+        
+        finally:
+            self.conn.close()
