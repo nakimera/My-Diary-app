@@ -12,7 +12,10 @@ class Entry(object):
     def add_entry(self):
         return ''
 
-    def modify_entries(self):
+    @staticmethod
+    def modify_entries(title, description):
         return ''
 
-    # def get_entry
+    @staticmethod
+    def get_entry(entry_id):
+        return ''
