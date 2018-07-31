@@ -7,7 +7,23 @@ class DatabaseConnection:
     """
 
     def __init__(self):
-        self.conn = psycopg2.connect(DevelopmentConfig.DATABASE_URL)        
+        self.conn = None
+
+    def execute_query(self, query, fetch_one_record=False, fetch_all_records=False):
+
+        try:
+            self.conn = psycopg2.connect(DevelopmentConfig.DATABASE_URL)
+            cur = self.conn.cursor()
+            cur.execute(query)
+
+            if fetch_one_record:
+                return cur.fetchone()
+
+            if fetch_all_records:
+                return cur.fetchall()
+
+        except psycopg2.DatabaseError as ex:
+            print(ex)     
 
     def create_users_table(self):
         """
@@ -21,19 +37,10 @@ class DatabaseConnection:
                     email_address VARCHAR(50) UNIQUE NOT NULL,
                     password)
                 """
-        
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            self.conn.commit()
 
-        except:
-            psycopg2.DatabaseError as ex:
-            print(ex)
-        
-        finally:
-            self.conn.close()
-
+        self.execute_query(query)
+        self.conn.commit()
+        self.conn.close()
 
     def add_user(self):
         """
@@ -43,20 +50,12 @@ class DatabaseConnection:
         query = f"""
                     INSERT INTO users
                     (username, email_address, password) 
-                    values('{username}', '{email_address}', '{password}')"
+                    values('{self.username}', '{self.email_address}', '{self.password}')
                 """
 
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            self.conn.commit()
-
-        except:
-            psycopg2.DatabaseError as ex:
-            print(ex)
-        
-        finally:
-            self.conn.close()
+        self.execute_query(query)
+        self.conn.commit()
+        self.conn.close()
 
     def fetch_user(self):
         """
@@ -67,16 +66,9 @@ class DatabaseConnection:
                     SELECT * 
                     FROM users 
                     WHERE username='{}'
-                """.format(username)
+                """.format(self.username)
 
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            self.conn.commit()
-
-        except:
-            psycopg2.DatabaseError as ex:
-            print(ex)
+        record = self.execute_query(query,fetch_one_record=True)
+        print(record)
         
-        finally:
-            self.conn.close()
+        self.conn.close()
