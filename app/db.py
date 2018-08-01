@@ -49,7 +49,7 @@ class DatabaseConnection:
 
         query = f"""
                     INSERT INTO users
-                    (username, email_address, password) 
+                    (username, password, email_address) 
                     values('{self.username}', '{self.email_address}', '{self.password}')
                 """
 
