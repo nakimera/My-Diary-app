@@ -7,10 +7,10 @@ My Diary is an online journal where users can pen down their thoughts and feelin
 You will need the following software running on your machine to get started
 
 * Python 3.6
-python is a blah blah programming language 
+is an intepreted high-level programming language and it was used for this application
 
 * pip
-is a package installer
+is a package management system used to install and manage software packages written in python
 
 * Postgres database
 
@@ -21,7 +21,7 @@ is a package installer
 
 Download python from [here] (https://www.python.org/getit/)
 Download pip from [here] (https://pip.pypa.io/en/stable/reference/pip_download/)
-Download Postgres database software from [here] ()
+Download Postgres database software from [here] ( https://www.postgresql.org/download/)
 
 ### Setting up the application
 These are the steps on how to get a development environment of the application running on your machine
@@ -89,4 +89,4 @@ $ pytest test_entry.py
 ## Deployment  sites
 The user interfaces are hosted on github pages at https://nakimera.github.io/My-Diary/
 
-The api is hosted on heroku at https://npdiary-api-heroku.herokuapp.com/
+The api is hosted on heroku at 
