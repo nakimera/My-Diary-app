@@ -1,9 +1,11 @@
 from flask import Blueprint, make_response, request
 from werkzeug.security import generate_password_hash
 import psycopg2
+from validate_email import validate_email
 from app.api.v1.auth.models import User
 
 mod = Blueprint('auth', __name__)
+
 
 @mod.route('/signup', methods=['POST'])
 def signup():
@@ -18,12 +20,16 @@ def signup():
     if not email_address:
         return make_response("Please provide a email address", 400)
 
+    if not validate_email(email_address):
+        return make_response("Please provide a valid email address", 400)
+
     if not password:
         return make_response("Please provide a password", 400)
 
     # if db_user:
     #     return make_response("User already exists. Please log in")
 
+    validate_email(email_address)
     password_hash = generate_password_hash(data.get("password"), method='sha256')
     user = User(username, password_hash, email_address)
     user.create_user()
