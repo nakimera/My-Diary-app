@@ -5,9 +5,18 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+
 # command to run tests
 script:
   - py.test 
 
 after_success:
   -coveralls
+
+# start postgres
+services:
+  -postgresql
+
+# create database
+before_script:
+  - psql -c 'create database mydiary;' -U postgres
