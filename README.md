@@ -60,7 +60,7 @@ $ python run.py
 ```
 
 ### Setting up the database
-Install postgres database on your machine
+Make sure postgres database is installed on your machine
 
 The app should now be running on http://localhost:5000
 
