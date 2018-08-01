@@ -15,7 +15,7 @@ after_success:
 
 # start postgres
 services:
-  -postgresql
+  - postgresql
 
 # create database
 before_script:

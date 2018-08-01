@@ -74,23 +74,7 @@ class UserTests(TestCase):
         self.assertIn("Please provide a password", str(response.data))
 
 
-    # Test api can not create a user that already exists
-    def test_cannot_create_an_existing_user(self):
-        pass
-
-
-    # Test api can not create a user that already exists
-    def test_user_can_log_in(self):
-        self.user = {
-                        "username" : "prossie", 
-                        "password" : "password"
-                    }
-        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("You have successfully logged in", str(response.data))
-        
-
-    # Test usercan not login without a username
+    # Test user can not login without a username
     def test_user_can_not_log_in_without_username(self):
         self.user = {
                         "username" : "", 
@@ -110,3 +94,26 @@ class UserTests(TestCase):
         response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a password", str(response.data))
+
+
+    # Test user non-existant user cannot login
+    def test_non_existant_user_cant_login(self):
+        self.user= {
+            "username": "username",
+            "email_address": "ex@somemail.com",
+            "password" : "password"
+        }
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("User does not exist. Please try again", str(response.data))
+
+    # Test api can log in a user
+    def test_user_can_log_in(self):
+        self.user = {
+                        "username" : "prossie", 
+                        "email_address" : "prossie@gmail.com",
+                        "password" : "password"
+                    }
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("You have successfully logged in", str(response.data))
