@@ -17,10 +17,13 @@ class DatabaseConnection:
             cur.execute(query)
 
             if fetch_one_record:
+                print(cur.fetchone())
                 return cur.fetchone()
+
 
             if fetch_all_records:
                 return cur.fetchall()
+            cur.close()
 
         except psycopg2.DatabaseError as ex:
             print(ex)     
@@ -42,33 +45,33 @@ class DatabaseConnection:
         self.conn.commit()
         self.conn.close()
 
-    def add_user(self):
-        """
-        Method that adds a user to the users table
-        """
+    # def add_user(self):
+    #     """
+    #     Method that adds a user to the users table
+    #     """
 
-        query = f"""
-                    INSERT INTO users
-                    (username, password, email_address) 
-                    values('{self.username}', '{self.email_address}', '{self.password}')
-                """
+    #     query = f"""
+    #                 INSERT INTO users
+    #                 (username, password, email_address) 
+    #                 values('{self.username}', '{self.email_address}', '{self.password}')
+    #             """
 
-        self.execute_query(query)
-        self.conn.commit()
-        self.conn.close()
+    #     self.execute_query(query)
+    #     self.conn.commit()
+    #     self.conn.close()
 
-    def fetch_user(self):
-        """
-        Method that fetches a user from the DB
-        """
+    # def fetch_user(self):
+    #     """
+    #     Method that fetches a user from the DB
+    #     """
 
-        query = """
-                    SELECT * 
-                    FROM users 
-                    WHERE username='{}'
-                """.format(self.username)
+    #     query = """
+    #                 SELECT * 
+    #                 FROM users 
+    #                 WHERE email_address='{}'
+    #             """.format(self.email_address)
 
-        record = self.execute_query(query,fetch_one_record=True)
-        print(record)
+    #     record = self.execute_query(query,fetch_one_record=True)
+    #     print(record)
         
-        self.conn.close()
+    #     self.conn.close()

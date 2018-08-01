@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request
+from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 import psycopg2
 from validate_email import validate_email
@@ -15,25 +15,27 @@ def signup():
     password = str(data.get("password", None)).strip()
 
     if not username:
-        return make_response("Please provide a username", 400)
+        return jsonify({"message": "Please provide a username",}), 400
     
     if not email_address:
-        return make_response("Please provide a email address", 400)
+        return jsonify({"message": "Please provide an email address"}), 400
 
     if not validate_email(email_address):
-        return make_response("Please provide a valid email address", 400)
+        return jsonify({"message": "Please provide a valid email address"}), 400
 
     if not password:
-        return make_response("Please provide a password", 400)
-
-    # if db_user:
-    #     return make_response("User already exists. Please log in")
+        return jsonify({"message": "Please provide a password"}), 400
 
     validate_email(email_address)
     password_hash = generate_password_hash(data.get("password"), method='sha256')
-    user = User(username, password_hash, email_address)
+    user = User(username, email_address, password_hash)
+    user_exists = user.fetch_user(email_address)
+
+    if user_exists:
+        return jsonify({"message": "User already exists. Please log in"}), 409
+
     user.create_user()
-    return make_response('User successfully signed up', 201)
+    return jsonify({"message": "User successfully signed up"}), 201
 
 @mod.route('/login', methods=['POST'])
 def login():
@@ -42,9 +44,9 @@ def login():
     password = str(data.get("password")).strip()
 
     if not username:
-        return make_response("Please provide a username", 400)
+        return jsonify({"message": "Please provide a username"}), 400
         
     if not password:
-        return make_response("Please provide a password", 400)
+        return jsonify({"message": "Please provide a password"}), 400
     
-    return make_response("You have successfully logged in.", 200)
+    return jsonify({"message": "You have successfully logged in"}), 200
