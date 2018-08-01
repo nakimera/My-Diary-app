@@ -20,7 +20,9 @@ is a package management system used to install and manage software packages writ
 * Pylint
 
 Download python from [here](https://www.python.org/getit/)
+
 Download pip from [here](https://pip.pypa.io/en/stable/reference/pip_download/)
+
 Download Postgres database software from [here]( https://www.postgresql.org/download/)
 
 ### Setting up the application
@@ -60,7 +62,7 @@ $ python run.py
 ```
 
 ### Setting up the database
-Install postgres database on your machine
+Make sure postgres database is installed on your machine
 
 The app should now be running on http://localhost:5000
 
