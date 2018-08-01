@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nakimera/My-Diary-app.svg?branch=feature-api-endpoints)](https://travis-ci.org/nakimera/My-Diary-app)
+
 # My-Diary-app
 My Diary is an online journal where users can pen down their thoughts and feelings. 
 
