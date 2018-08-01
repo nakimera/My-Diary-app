@@ -51,6 +51,16 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a email address", str(response.data))
 
+    # Test api can not create a user without an invalid email address
+    def test_cannot_create_user_with_an_invalid_email(self):
+        self.user = {
+                        "username" : "prossie", 
+                        "password" : "password", 
+                        "email_address" : "p"
+                    }
+        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Please provide a valid email address", str(response.data))
     
     # Test api can not create a user without a password
     def test_cannot_create_user_without_password(self):
