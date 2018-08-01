@@ -8,15 +8,21 @@ mod = Blueprint('auth', __name__)
 @mod.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json(force=True)
-    username = data.get("username", None)
-    email_address = data.get("email_address", None)
-    password = generate_password_hash(data.get("password"), method='sha256')
-    user = User(username, password, email_address)
+    username = str(data.get("username", "")).strip()
+    email_address = str(data.get("email_address", None)).strip()
+    password = str(generate_password_hash(data.get("password"), method='sha256')).strip()
 
-    if user.username == "":
-        return make_response("Please provide a username", 200)
-        
+    if not username:
+        return make_response("Please provide a username", 400)
+    
+    elif not email_address:
+        return make_response("Please provide a email address", 400)
+
+    elif not password:
+        return make_response("Please provide a password", 400)
+
     else:
+        user = User(username, password, email_address)
         user.create_user()
         return make_response('User successfully signed up', 201)
 
