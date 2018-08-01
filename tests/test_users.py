@@ -13,34 +13,74 @@ class UserTests(TestCase):
         """
 
         self.app = create_app("testing")
-        self.client = self.app.test_client
+        self.client = self.app.test_client  
+
+    # Test api can create a user
+    def test_create_user(self):
         self.user = {
             "username" : "prossie",
             "password" : "password",
             "email_address" : "prossie@gmail.com"
-        }   
-
-    # Test api can create a user
-    def test_create_user(self):
+        } 
         response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 201)
         self.assertIn('User successfully signed up', str(response.data))
 
     # Test api can not create a user without a username
     def test_cannot_create_user_without_username(self):
-        self.user = {"username" : "", "password" : "password", "email_address" : "prossie@gmail.com"}
+        self.user = {
+                        "username" : "", 
+                        "password" : "password", 
+                        "email_address" : "prossie@gmail.com"
+                    }
         response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Please provide a username', str(response.data))
+        self.assertIn("Please provide a username", str(response.data))
 
     # Test api can not create a user without an email address
     def test_cannot_create_user_without_email(self):
-        pass
+        self.user = {
+                        "username" : "prossie", 
+                        "password" : "password", 
+                        "email_address" : ""
+                    }
+        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Please provide a email address", str(response.data))
     
     # Test api can not create a user without a password
     def test_cannot_create_user_without_password(self):
-        pass
+        self.user = {
+                        "username" : "prossie", 
+                        "password" : "", 
+                        "email_address" : "prossie@gmail.com"
+                    }
+        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Please provide a password", str(response.data))
 
     # Test api can not create a user that already exists
     def test_cannot_create_an_existing_user(self):
         pass
+
+    # Test api can not create a user that already exists
+    def test_user_can_log_in(self):
+        self.user = {
+                        "username" : "prossie", 
+                        "password" : "password"
+                    }
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("You are successfully logged in", str(response.data))
+
+    # Test api can not create a user that already exists
+    def test_user_can_not_log_in_without_username(self):
+        self.user = {
+                        "username" : "", 
+                        "password" : "password"
+                    }
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Please provide a username", str(response.data))
+
+    
