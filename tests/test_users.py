@@ -114,6 +114,8 @@ class UserTests(TestCase):
                         "email_address" : "prossie@gmail.com",
                         "password" : "password"
                     }
+
+        rv = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
         response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 200)
         self.assertIn("You have successfully logged in", str(response.data))
