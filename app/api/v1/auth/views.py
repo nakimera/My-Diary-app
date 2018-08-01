@@ -32,15 +32,13 @@ def signup():
 @mod.route('/login', methods=['POST'])
 def login():
     data = request.get_json(force=True)
-    username = data.get("username", None)
-    password = data.get("password", None)
-    user = User(username, password)
+    username = str(data.get("username")).strip()
+    password = str(data.get("password")).strip()
 
     if not username:
         return make_response("Please provide a username", 400)
-    
+        
     if not password:
         return make_response("Please provide a password", 400)
-
-    user.login_user()
-    return make_response('You are successfully logged in', 200)
+    
+    return make_response("You have successfully logged in.", 200)

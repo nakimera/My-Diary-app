@@ -77,8 +77,8 @@ class UserTests(TestCase):
                     }
         response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 200)
-        self.assertIn("You are successfully logged in", str(response.data))
-
+        self.assertIn("You have successfully logged in", str(response.data))
+        
 
     # Test usercan not login without a username
     def test_user_can_not_log_in_without_username(self):

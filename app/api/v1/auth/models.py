@@ -5,7 +5,7 @@ class User(DatabaseConnection):
     This class defines the app users
     """
 
-    def __init__(self, username, password, email_address=None):
+    def __init__(self, username, password, email_address):
         DatabaseConnection.__init__(self)
         self.username = username
         self.email_address = email_address
