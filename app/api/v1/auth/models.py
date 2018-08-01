@@ -12,12 +12,6 @@ class User(DatabaseConnection):
         self.password = password
 
     def create_user(self):
-        self.add_user()
-
-    def login_user(self):
-        self.fetch_user()
-
-    def add_user(self):
         """
         Method that adds a user to the users table
         """
@@ -48,5 +42,6 @@ class User(DatabaseConnection):
         
         self.conn.close()
 
-    # def get_user(username):
+    def login_user(self):
+        self.fetch_user()
         

@@ -41,6 +41,7 @@ def signup():
 def login():
     data = request.get_json(force=True)
     username = str(data.get("username")).strip()
+    email_address = str(data.get("email_address")).strip()
     password = str(data.get("password")).strip()
 
     if not username:
@@ -49,4 +50,16 @@ def login():
     if not password:
         return jsonify({"message": "Please provide a password"}), 400
     
-    return jsonify({"message": "You have successfully logged in"}), 200
+    if not email_address:
+        return jsonify({"message": "Please provide an email address"}), 400
+    
+    if not validate_email(email_address):
+        return jsonify({"message": "Please provide a valid email address"}), 400
+
+    user = User(username, email_address, password)
+    user_exists = user.fetch_user(email_address)
+    
+    if user_exists:
+        return jsonify({"message": "You have successfully logged in"}), 200
+    
+    return jsonify({"message" : "User does not exist. Please try again"}), 404
