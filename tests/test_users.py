@@ -73,7 +73,7 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("You are successfully logged in", str(response.data))
 
-    # Test api can not create a user that already exists
+    # Test usercan not login without a username
     def test_user_can_not_log_in_without_username(self):
         self.user = {
                         "username" : "", 
@@ -83,4 +83,12 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a username", str(response.data))
 
-    
+    # Test user can not login without a password
+    def test_user_can_not_log_in_without_username(self):
+        self.user = {
+                        "username" : "username", 
+                        "password" : ""
+                    }
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Please provide a password", str(response.data))
