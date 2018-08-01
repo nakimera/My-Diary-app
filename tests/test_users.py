@@ -28,14 +28,10 @@ class UserTests(TestCase):
 
     # Test api can not create a user without a username
     def test_cannot_create_user_without_username(self):
-        self.user = {
-            "username" : "", 
-            "password" : "password", 
-            "email_address" : "prossie@gmail.com"
-            }
+        self.user = {"username" : "", "password" : "password", "email_address" : "prossie@gmail.com"}
         response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
-        self.assertEqual(response.status_code, 201)
-        self.assertIn('User successfully signed up', str(response.data))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Please provide a username', str(response.data))
 
     # Test api can not create a user without an email address
     def test_cannot_create_user_without_email(self):
