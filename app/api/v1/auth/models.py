@@ -1,3 +1,4 @@
+from flask import jsonify
 import datetime
 import jwt
 from app.db import DatabaseConnection
@@ -68,5 +69,17 @@ class User(DatabaseConnection):
             return ex
 
     # Method to decode authentication token
-    # def decode_auth_token():
-    #     pass
+    @staticmethod
+    def decode_auth_token(token):
+        try:
+            payload = jwt.decode(auth_token, Config.SECRET_KEY)
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return jsonify({
+                'message' : 'Signature expired. Please log in again.'
+            })
+        except jwt.InvalidTokenError:
+            return jsonify({
+                "message" : "Invalid token. Please log in again."
+            })
+            
