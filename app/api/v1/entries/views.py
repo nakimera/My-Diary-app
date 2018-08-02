@@ -6,28 +6,8 @@ from app.api.v1.auth.auth import token_required
 
 mod = Blueprint('entry', __name__)
 
-# entryIds = []
-# entries_list = []
-
-
-# def generate_entryId():
-#     entryId = random.randint(1,100)
-#     if entryId in entryIds:
-#         entryId = random.randint(1,1000)
-#         entryIds.append(entryId)
-#     return entryId
-
-
-# def get_entry_by_entryId(entryId):
-#     for entry in entries_list:
-
-#         if entry.entryId == int(entryId):
-#             return entry
-#     return None
-
 def convert_entry_to_dict(entry):
-    if not entry:
-        return {}
+    # for entry in entries:
     return dict([
             ('entry_date', entry.entry_date),
             ('title', entry.title),
@@ -54,7 +34,6 @@ def entry(user_id):
             return jsonify({"message" : "Please enter details"}), 400
         
         entry_exists = user_entry.fetch_user_entries(user_id)
-        print(entry_exists)
 
         user_entry.create_user_entry(user_id)
         
@@ -64,14 +43,17 @@ def entry(user_id):
         }), 201
 
     if request.method == 'GET':
+        entry = Entry(None, None, None)
+        entries = entry.fetch_user_entries(user_id)
+        # my_entries = []
+        # # for entry in entries:
+        # #     convert_entry_to_dict(entry)
+        # #     my_entries.append(entry)
 
-        for each_entry in entries_list:
-            each_entry = convert_entry_to_dict(each_entry)
-            all_entries.append(each_entry)
-        
+
         return jsonify({
             "message" : "All entries successfully retrieved",
-            "data" : all_entries
+            "data" : entries
         }), 200
     
 

@@ -15,7 +15,6 @@ class User(DatabaseConnection):
         self.email_address = email_address
         self.password = password
 
-    # Method to create a  user account
     def create_user(self):
         """
         Method that adds a user to the users table
@@ -31,7 +30,6 @@ class User(DatabaseConnection):
         self.conn.commit()
         self.conn.close()
 
-    # Method to fetch a user
     def fetch_user(self, email_address):
         """
         Method that fetches a user from the DB
@@ -48,7 +46,7 @@ class User(DatabaseConnection):
         
         self.conn.close()
 
-    # Method to encode authentication token
+    # Method that encodes authentication token
     def encode_auth_token(self, user_id):
         try:
             payload = {

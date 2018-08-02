@@ -24,6 +24,7 @@ class Entry(DatabaseConnection):
         self.conn.close()
 
     # Method to fetch a user's entries
+    
     def fetch_user_entries(self, user_id):
         """
         Method that fetches a user's entries from the entries db
@@ -36,9 +37,21 @@ class Entry(DatabaseConnection):
                 """.format(user_id)
 
         record = self.execute_query(query, fetch_all_records=True)
-        return record
+        entries = []
+        entry_labels = ('entry_id', 'entry_date', 'title', 'user_id', 'details')
+
+        for entry in record:
+            entry_dict = {}
+            entry_dict['entry_id'] = entry[0]
+            entry_dict['entry_date'] = entry[1]
+            entry_dict['title'] = entry[2]
+            entry_dict['user_id'] = entry[3]
+            entry_dict['details'] = entry[4]
+
+            entries.append(entry_dict)
+
+        return entries
         
-        self.conn.close()
 
     def modify_entries(title, description):
         return ''
