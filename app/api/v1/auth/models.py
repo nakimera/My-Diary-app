@@ -48,14 +48,11 @@ class User(DatabaseConnection):
         
         self.conn.close()
 
-    def login_user(self):
-        self.fetch_user()
-
     # Method to encode authentication token
     def encode_auth_token(self, user_id):
         try:
             payload = {
-                'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=2),
+                'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=20),
                 'iat' : datetime.datetime.utcnow(),
                 'sub' : user_id
             }
@@ -68,18 +65,4 @@ class User(DatabaseConnection):
         except Exception as ex:
             return ex
 
-    # Method to decode authentication token
-    @staticmethod
-    def decode_auth_token(token):
-        try:
-            payload = jwt.decode(auth_token, Config.SECRET_KEY)
-            return payload['sub']
-        except jwt.ExpiredSignatureError:
-            return jsonify({
-                'message' : 'Signature expired. Please log in again.'
-            })
-        except jwt.InvalidTokenError:
-            return jsonify({
-                "message" : "Invalid token. Please log in again."
-            })
             

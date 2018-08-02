@@ -6,15 +6,24 @@ from app.api.v1.auth.auth import token_required
 
 mod = Blueprint('entry', __name__)
 
-entryIds = []
-entries_list = []
+# entryIds = []
+# entries_list = []
 
-def get_entry_by_entryId(entryId):
-    for entry in entries_list:
 
-        if entry.entryId == int(entryId):
-            return entry
-    return None
+# def generate_entryId():
+#     entryId = random.randint(1,100)
+#     if entryId in entryIds:
+#         entryId = random.randint(1,1000)
+#         entryIds.append(entryId)
+#     return entryId
+
+
+# def get_entry_by_entryId(entryId):
+#     for entry in entries_list:
+
+#         if entry.entryId == int(entryId):
+#             return entry
+#     return None
 
 def convert_entry_to_dict(entry):
     if not entry:
@@ -28,31 +37,33 @@ def convert_entry_to_dict(entry):
 
 @mod.route('', methods=['POST', 'GET'])
 @token_required
-def entry():
+def entry(user_id):
 
     if request.method == 'POST':
 
         data = request.get_json(force=True)
-        entry_date = datetime.datetime.now()
         title = data.get("title", None)
-        details = data.get("details", None)
+        details = str(data.get("details", None)).strip()
+        entry_date = str(datetime.datetime.now()).strip()
         user_entry = Entry(entry_date, title, details)
-        entries_list.append(user_entry)
 
-        if user_entry.title == "" or user_entry.title == " ":
+        if not title:
             return jsonify({"message" : "Please enter a title"}), 400
 
-        elif user_entry.details == "" or user_entry.details == " ":
+        if not details:
             return jsonify({"message" : "Please enter details"}), 400
+        
+        entry_exists = user_entry.fetch_user_entries(user_id)
+        print(entry_exists)
 
+        user_entry.create_user_entry(user_id)
+        
         return jsonify({
             "message" : "Entry successfully added",
-            "data": convert_entry_to_dict(user_entry)
+            "my-entry": convert_entry_to_dict(user_entry)
         }), 201
 
     if request.method == 'GET':
-
-        all_entries = []
 
         for each_entry in entries_list:
             each_entry = convert_entry_to_dict(each_entry)
@@ -65,8 +76,8 @@ def entry():
     
 
 
-@mod.route('/<entryId>', methods=['PUT', 'GET']) 
-@token_required      
+@mod.route('/<entryId>', methods=['PUT', 'GET'])   
+@token_required    
 def indiv_entry(entryId): 
     one_entry = get_entry_by_entryId(entryId) 
 
@@ -86,8 +97,8 @@ def indiv_entry(entryId):
         data = request.get_json(force = True)
 
         for key, value in data.items():
-            if key == "date":
-                one_entry.date = value
+            if key == "entry_date":
+                one_entry.entry_date = value
             elif key  == "title":
                 one_entry.title = value
             elif key  == "details":
@@ -97,4 +108,4 @@ def indiv_entry(entryId):
             "message": "Entry successfully updated",
             "status": True,
             "data": convert_entry_to_dict(one_entry)
-            }), 200
+}), 200
