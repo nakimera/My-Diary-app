@@ -44,7 +44,7 @@ class DatabaseConnection:
         self.conn.commit()
         self.conn.close()
 
-    def create_entries_table:
+    def create_entries_table(self):
         """
         Method that creates the entries table if it doesn't exist
         """

@@ -1,4 +1,7 @@
+import datetime
+import jwt
 from app.db import DatabaseConnection
+from app.config import Config
 
 class User(DatabaseConnection):
     """
@@ -11,6 +14,7 @@ class User(DatabaseConnection):
         self.email_address = email_address
         self.password = password
 
+    # Method to create a  user account
     def create_user(self):
         """
         Method that adds a user to the users table
@@ -26,6 +30,7 @@ class User(DatabaseConnection):
         self.conn.commit()
         self.conn.close()
 
+    # Method to fetch a user
     def fetch_user(self, email_address):
         """
         Method that fetches a user from the DB
@@ -44,4 +49,19 @@ class User(DatabaseConnection):
 
     def login_user(self):
         self.fetch_user()
-        
+
+    def encode_auth_token(self, user_id):
+        try:
+            payload = {
+                'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=2),
+                'iat' : datetime.datetime.utcnow(),
+                'sub' : user_id
+            }
+            return jwt.encode(
+                payload,
+                Config.SECRET_KEY,
+                algorithm='HS256'
+            )
+
+        except Exception as ex:
+            return ex
