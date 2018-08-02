@@ -27,6 +27,7 @@ class DatabaseConnection:
         except psycopg2.DatabaseError as ex:
             print(ex)     
 
+  
     def create_users_table(self):
         """
         Method that creates the users table if it doesn't exist
@@ -57,6 +58,15 @@ class DatabaseConnection:
                     details VARCHAR NOT NULL)
                 """
 
+        self.execute_query(query)
+        self.conn.commit()
+        self.conn.close()
+
+    def drop_table_data(self):
+        """
+        Method that drops tables
+        """
+        query = ("TRUNCATE TABLE users CASCADE ")
         self.execute_query(query)
         self.conn.commit()
         self.conn.close()
