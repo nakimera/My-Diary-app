@@ -69,4 +69,4 @@ def login():
                             "token": token.decode('UTF-8')
                         }), 200
     
-    return jsonify({"message" : "User does not exist. Please try again"}), 200
+    return jsonify({"message" : "User does not exist. Please try again"}), 404
