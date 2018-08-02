@@ -50,6 +50,7 @@ class User(DatabaseConnection):
     def login_user(self):
         self.fetch_user()
 
+    # Method to encode authentication token
     def encode_auth_token(self, user_id):
         try:
             payload = {
@@ -65,3 +66,7 @@ class User(DatabaseConnection):
 
         except Exception as ex:
             return ex
+
+    # Method to decode authentication token
+    # def decode_auth_token():
+    #     pass

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import jwt
 from validate_email import validate_email
@@ -57,12 +57,13 @@ def login():
         return jsonify({"message": "Please provide an email address"}), 400
 
     user = User(username, email_address, password)
-    logged_in_user = user.fetch_user(email_address)
-    
-    if logged_in_user:
+    current_user = user.fetch_user(email_address)
+    compare_password = check_password_hash(current_user[2], password)
+
+    if compare_password == True:
+        logged_in_user = current_user
         user_id = logged_in_user[0]
         token = user.encode_auth_token(user_id)
-        print(token)
         return jsonify({
                             "message": "You have successfully logged in",
                             "token": token.decode('UTF-8')
