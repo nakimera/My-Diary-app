@@ -7,7 +7,6 @@ from app.api.v1.auth.auth import token_required
 mod = Blueprint('entry', __name__)
 
 def convert_entry_to_dict(entry):
-    # for entry in entries:
     return dict([
             ('entry_date', entry.entry_date),
             ('title', entry.title),
@@ -45,12 +44,6 @@ def entry(user_id):
     if request.method == 'GET':
         entry = Entry(None, None, None)
         entries = entry.fetch_user_entries(user_id)
-        # my_entries = []
-        # # for entry in entries:
-        # #     convert_entry_to_dict(entry)
-        # #     my_entries.append(entry)
-
-
         return jsonify({
             "message" : "All entries successfully retrieved",
             "data" : entries
