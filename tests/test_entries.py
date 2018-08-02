@@ -13,9 +13,11 @@
 #         Define test variables and initialize app
 #         """
 
+#         db_con = DatabaseConnection()
+#         db_con.drop_table_data()
 #         self.app = create_app("testing")
 #         self.client = self.app.test_client  
-#         DatabaseConnection.create_entries_table()
+#         db_con.create_entries_table()
 
 
 #     # Test api can add an entry
