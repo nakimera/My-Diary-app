@@ -2,6 +2,7 @@ import random
 import datetime
 from flask import Blueprint, request, jsonify
 from app.api.v1.entries.models import Entry
+from app.api.v1.auth.auth import token_required
 
 mod = Blueprint('entry', __name__)
 
@@ -26,6 +27,7 @@ def convert_entry_to_dict(entry):
 
 
 @mod.route('', methods=['POST', 'GET'])
+@token_required
 def entry():
 
     if request.method == 'POST':
@@ -63,7 +65,8 @@ def entry():
     
 
 
-@mod.route('/<entryId>', methods=['PUT', 'GET'])       
+@mod.route('/<entryId>', methods=['PUT', 'GET']) 
+@token_required      
 def indiv_entry(entryId): 
     one_entry = get_entry_by_entryId(entryId) 
 

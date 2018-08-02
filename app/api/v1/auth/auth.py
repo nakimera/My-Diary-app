@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from functools import wraps
 import jwt
 from app.api.v1.auth.models import User
@@ -20,3 +20,6 @@ def token_required(func):
             return jsonify({
                 "message" : "Token is invalid"
             }), 403
+        
+        return func
+    return decorated
