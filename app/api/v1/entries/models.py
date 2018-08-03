@@ -7,7 +7,6 @@ class Entry(DatabaseConnection):
         self.title = title
         self.details = details
 
-    # Method to add a  user entry
     def create_user_entry(self, user_id):
         """
         Method that adds a user entry to the entries table
@@ -22,8 +21,6 @@ class Entry(DatabaseConnection):
         self.execute_query(query)
         self.conn.commit()
         self.conn.close()
-
-    # Method to fetch a user's entries
     
     def fetch_user_entries(self, user_id):
         """
@@ -53,8 +50,33 @@ class Entry(DatabaseConnection):
         return entries
         
 
-    def modify_entries(title, description):
-        return ''
+    def fetch_user_entry(self, user_id, entry_id):
+        """
+        Method that fetches a single user entry from the entries db
+        """
 
-    def get_entry(entry_id):
+        query = """
+                    SELECT * 
+                    FROM entries
+                    WHERE entryId={}
+                """.format(entry_id)
+
+        record = self.execute_query(query, fetch_one_record=True)
+        return record
+        print(record)
+        # entry = {}
+        # entry['entry_id'] = entry[0]
+        # entry['entry_date'] = entry[1]
+        # entry['title'] = entry[2]
+        # entry['user_id'] = entry[3]
+        # entry['details'] = entry[4]
+
+        # return entry
+
+        
+    def modify_entries(title, description):
+        """
+        Method that mofidies a user entry
+        """
+
         return ''

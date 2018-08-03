@@ -9,7 +9,12 @@ mod = Blueprint('auth', __name__)
 
 
 @mod.route('/signup', methods=['POST'])
+
 def signup():
+    """ 
+    Method that registers a user
+    """
+
     data = request.get_json(force=True)
     username = str(data.get("username", "")).strip()
     email_address = str(data.get("email_address", None)).strip()
@@ -42,6 +47,9 @@ def signup():
 
 @mod.route('/login', methods=['POST'])
 def login():
+    """ 
+    Method that logs in a user
+    """
     data = request.get_json(force=True)
     username = str(data.get("username")).strip()
     email_address = str(data.get("email_address")).strip()
