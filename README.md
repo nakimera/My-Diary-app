@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/nakimera/My-Diary-app.svg?branch=feature-api-endpoints)](https://travis-ci.org/nakimera/My-Diary-app)
-[![Coverage Status](https://coveralls.io/repos/github/nakimera/My-Diary-app/badge.svg?branch=master)](https://coveralls.io/github/nakimera/My-Diary-app?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/nakimera/My-Diary-app/badge.svg?branch=feature-api-endpoints)](https://coveralls.io/github/nakimera/My-Diary-app?branch=feature-api-endpoints)
 
 # My-Diary-app
 My Diary is an online journal where users can pen down their thoughts and feelings. 

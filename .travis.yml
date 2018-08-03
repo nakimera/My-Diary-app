@@ -8,10 +8,10 @@ install:
 
 # command to run tests
 script:
-  - py.test 
+  - py.test --cov=tests
 
 after_success:
-  -coveralls
+  - coveralls
 
 # start postgres
 services:
