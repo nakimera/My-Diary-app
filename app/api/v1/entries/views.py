@@ -19,6 +19,9 @@ def convert_entry_to_dict(entry):
 def entry(user_id):
 
     if request.method == 'POST':
+        """
+        Adds a user entry
+        """
 
         data = request.get_json(force=True)
         title = data.get("title", None)
@@ -42,6 +45,10 @@ def entry(user_id):
         }), 201
 
     if request.method == 'GET':
+        """
+        Fetches all user entries
+        """
+
         entry = Entry(None, None, None)
         entries = entry.fetch_user_entries(user_id)
         return jsonify({
@@ -51,30 +58,38 @@ def entry(user_id):
     
 
 
-@mod.route('/<entryId>', methods=['PUT', 'GET'])   
+@mod.route('/<entry_id>', methods=['PUT', 'GET'])   
 @token_required    
-def indiv_entry(entryId): 
-    one_entry = get_entry_by_entryId(entryId) 
+def indiv_entry(user_id, entry_id): 
+    entry = Entry(None, None, None)
+    
+    one_entry = entry.fetch_user_entry(user_id, entry_id)
 
     if not one_entry:
+        """
+        Returns an entry by entry_id
+        """
+
         return jsonify({
-            "message" : "Entry not found",
-            "status": False}), 404
+            "message" : "Entry does not exist. Try again"
+        }), 404
 
     if request.method == 'GET':  
         return jsonify({
             "message": "Entry successfully retrieved",
             "status": True,
-            "data": convert_entry_to_dict(one_entry)
+            "data": one_entry
             }), 200
 
     if request.method == 'PUT':
+        """
+        Modifies an entry
+        """
+
         data = request.get_json(force = True)
 
         for key, value in data.items():
-            if key == "entry_date":
-                one_entry.entry_date = value
-            elif key  == "title":
+            if key  == "title":
                 one_entry.title = value
             elif key  == "details":
                 one_entry.details = value
@@ -82,5 +97,5 @@ def indiv_entry(entryId):
         return jsonify({
             "message": "Entry successfully updated",
             "status": True,
-            "data": convert_entry_to_dict(one_entry)
+            "data": one_entry
 }), 200

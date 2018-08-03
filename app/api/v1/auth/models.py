@@ -6,7 +6,7 @@ from app.config import Config
 
 class User(DatabaseConnection):
     """
-    This class defines the app users
+    Model for the app users
     """
 
     def __init__(self, username, email_address, password):
@@ -46,8 +46,11 @@ class User(DatabaseConnection):
         
         self.conn.close()
 
-    # Method that encodes authentication token
     def encode_auth_token(self, user_id):
+        """
+        Method that encodes authentication token
+        """
+
         try:
             payload = {
                 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=20),

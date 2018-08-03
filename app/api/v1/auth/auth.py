@@ -5,6 +5,10 @@ from app.api.v1.auth.models import User
 from app.config import Config
 
 def token_required(func):
+    """
+    Method that restricts access to entries routes
+    """
+
     @wraps(func)
     def decorated(*args, **kwargs):
         token = None
