@@ -68,7 +68,7 @@ def login():
     current_user = user.fetch_user(email_address)
     compare_password = check_password_hash(current_user[2], password)
 
-    if compare_password == True:
+    if compare_password == True and user.username == current_user[1]:
         logged_in_user = current_user
         user_id = logged_in_user[0]
         token = user.encode_auth_token(user_id)
