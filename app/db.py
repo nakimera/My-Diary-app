@@ -18,11 +18,11 @@ class DatabaseConnection:
 
             if fetch_one_record:
                 return cur.fetchone()
-
+                cur.close()
 
             if fetch_all_records:
                 return cur.fetchall()
-            cur.close()
+                cur.close()
 
         except psycopg2.DatabaseError as ex:
             print(ex)     
@@ -66,7 +66,9 @@ class DatabaseConnection:
         """
         Method that drops tables
         """
-        query = ("TRUNCATE TABLE users CASCADE ")
+        query = ("DROP TABLE users CASCADE ")
         self.execute_query(query)
+        query2 = ("DROP TABLE entries CASCADE ")
+        self.execute_query(query2)
         self.conn.commit()
         self.conn.close()

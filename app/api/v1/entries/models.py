@@ -1,5 +1,6 @@
 from app.db import DatabaseConnection
 
+
 class Entry(DatabaseConnection):
 
     def __init__(self, entry_date, title, details):
@@ -58,20 +59,20 @@ class Entry(DatabaseConnection):
         query = """
                     SELECT * 
                     FROM entries
-                    WHERE entryId={}
+                    WHERE entry_id={}
                 """.format(entry_id)
 
         record = self.execute_query(query, fetch_one_record=True)
         return record
         print(record)
-        # entry = {}
-        # entry['entry_id'] = entry[0]
-        # entry['entry_date'] = entry[1]
-        # entry['title'] = entry[2]
-        # entry['user_id'] = entry[3]
-        # entry['details'] = entry[4]
+        entry = {}
+        entry['entry_id'] = entry[0]
+        entry['entry_date'] = entry[1]
+        entry['title'] = entry[2]
+        entry['user_id'] = entry[3]
+        entry['details'] = entry[4]
 
-        # return entry
+        return entry
 
         
     def modify_entries(title, description):

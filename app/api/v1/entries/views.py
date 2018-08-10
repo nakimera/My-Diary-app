@@ -6,12 +6,13 @@ from app.api.v1.auth.auth import token_required
 
 mod = Blueprint('entry', __name__)
 
+
 def convert_entry_to_dict(entry):
     return dict([
-            ('entry_date', entry.entry_date),
-            ('title', entry.title),
-            ('details', entry.details)
-        ])
+        ('entry_date', entry.entry_date),
+        ('title', entry.title),
+        ('details', entry.details)
+    ])
 
 
 @mod.route('', methods=['POST', 'GET'])
@@ -30,17 +31,17 @@ def entry(user_id):
         user_entry = Entry(entry_date, title, details)
 
         if not title:
-            return jsonify({"message" : "Please enter a title"}), 400
+            return jsonify({"message": "Please enter a title"}), 400
 
         if not details:
-            return jsonify({"message" : "Please enter details"}), 400
-        
+            return jsonify({"message": "Please enter details"}), 400
+
         entry_exists = user_entry.fetch_user_entries(user_id)
 
         user_entry.create_user_entry(user_id)
-        
+
         return jsonify({
-            "message" : "Entry successfully added",
+            "message": "Entry successfully added",
             "my-entry": convert_entry_to_dict(user_entry)
         }), 201
 
@@ -52,18 +53,18 @@ def entry(user_id):
         entry = Entry(None, None, None)
         entries = entry.fetch_user_entries(user_id)
         return jsonify({
-            "message" : "All entries successfully retrieved",
-            "data" : entries
+            "message": "All entries successfully retrieved",
+            "data": entries
         }), 200
-    
 
 
-@mod.route('/<entry_id>', methods=['PUT', 'GET'])   
-@token_required    
-def indiv_entry(user_id, entry_id): 
+@mod.route('/<entry_id>', methods=['PUT', 'GET'])
+@token_required
+def indiv_entry(user_id, entry_id):
     entry = Entry(None, None, None)
-    
+
     one_entry = entry.fetch_user_entry(user_id, entry_id)
+    # print(one_entry)
 
     if not one_entry:
         """
@@ -71,31 +72,31 @@ def indiv_entry(user_id, entry_id):
         """
 
         return jsonify({
-            "message" : "Entry does not exist. Try again"
+            "message": "Entry does not exist. Try again"
         }), 404
 
-    if request.method == 'GET':  
+    if request.method == 'GET':
         return jsonify({
             "message": "Entry successfully retrieved",
             "status": True,
             "data": one_entry
-            }), 200
+        }), 200
 
     if request.method == 'PUT':
         """
         Modifies an entry
         """
 
-        data = request.get_json(force = True)
+        data = request.get_json(force=True)
 
         for key, value in data.items():
-            if key  == "title":
+            if key == "title":
                 one_entry.title = value
-            elif key  == "details":
+            elif key == "details":
                 one_entry.details = value
-            
+
         return jsonify({
             "message": "Entry successfully updated",
             "status": True,
             "data": one_entry
-}), 200
+        }), 200
