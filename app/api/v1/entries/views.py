@@ -1,8 +1,10 @@
-import random
 import datetime
-from flask import Blueprint, request, jsonify
-from app.api.v1.entries.models import Entry
+import random
+
+from flask import Blueprint, jsonify, request
+
 from app.api.v1.auth.auth import token_required
+from app.api.v1.entries.models import Entry
 
 mod = Blueprint('entry', __name__)
 
@@ -13,6 +15,7 @@ def convert_entry_to_dict(entry):
         ('title', entry.title),
         ('details', entry.details)
     ])
+
 
 
 @mod.route('', methods=['POST', 'GET'])
@@ -36,7 +39,7 @@ def entry(user_id):
         if not details:
             return jsonify({"message": "Please enter details"}), 400
 
-        entry_exists = user_entry.fetch_user_entries(user_id)
+        # entry_exists = user_entry.fetch_user_entries(user_id)
 
         user_entry.create_user_entry(user_id)
 
@@ -63,8 +66,7 @@ def entry(user_id):
 def indiv_entry(user_id, entry_id):
     entry = Entry(None, None, None)
 
-    one_entry = entry.fetch_user_entry(user_id, entry_id)
-    # print(one_entry)
+    one_entry = entry.fetch_user_entry(entry_id)
 
     if not one_entry:
         """
@@ -78,7 +80,6 @@ def indiv_entry(user_id, entry_id):
     if request.method == 'GET':
         return jsonify({
             "message": "Entry successfully retrieved",
-            "status": True,
             "data": one_entry
         }), 200
 
@@ -86,17 +87,20 @@ def indiv_entry(user_id, entry_id):
         """
         Modifies an entry
         """
-
+        print(one_entry)
         data = request.get_json(force=True)
 
-        for key, value in data.items():
-            if key == "title":
-                one_entry.title = value
-            elif key == "details":
-                one_entry.details = value
+        # for key, value in data.items():
+        #     if key == "title":
+        #         one_entry[2] = value
+        #     elif key == "details":
+        #         one_entry.details = value
+
+        one_entry.modify_entries(entry_id, title, description)
 
         return jsonify({
-            "message": "Entry successfully updated",
-            "status": True,
-            "data": one_entry
-        }), 200
+                "message": "Entry successfully updated",
+                "data": one_entry
+            }), 200
+
+           
