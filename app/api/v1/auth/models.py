@@ -1,8 +1,11 @@
-from flask import jsonify
 import datetime
+
+from flask import jsonify
+
 import jwt
-from app.db import DatabaseConnection
 from app.config import Config
+from app.db import DatabaseConnection
+
 
 class User(DatabaseConnection):
     """
@@ -53,7 +56,7 @@ class User(DatabaseConnection):
 
         try:
             payload = {
-                'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=20),
+                'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=90),
                 'iat' : datetime.datetime.utcnow(),
                 'sub' : user_id
             }
@@ -65,5 +68,3 @@ class User(DatabaseConnection):
 
         except Exception as ex:
             return ex
-
-            

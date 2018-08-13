@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
+from flask import Blueprint, jsonify, request
+from werkzeug.security import check_password_hash, generate_password_hash
+
 import jwt
-from validate_email import validate_email
 from app.api.v1.auth.models import User
+from validate_email import validate_email
 
 mod = Blueprint('auth', __name__)
 
@@ -66,7 +67,7 @@ def login():
 
     user = User(username, email_address, password)
     current_user = user.fetch_user(email_address)
-    compare_password = check_password_hash(current_user[2], password)
+    compare_password = check_password_hash(current_user[3], password)
 
     if compare_password == True and user.username == current_user[1]:
         logged_in_user = current_user
