@@ -1,5 +1,7 @@
 import psycopg2
+
 from app.config import DevelopmentConfig
+
 
 class DatabaseConnection:
     """
@@ -8,6 +10,7 @@ class DatabaseConnection:
 
     def __init__(self):
         self.conn = None
+
 
     def execute_query(self, query, fetch_one_record=False, fetch_all_records=False):
 
@@ -54,8 +57,10 @@ class DatabaseConnection:
                     (entry_id SERIAL PRIMARY KEY,
                     entry_date DATE NOT NULL UNIQUE,
                     title VARCHAR(50) UNIQUE NOT NULL,
-                    user_id FOREIGN KEY,
-                    details VARCHAR NOT NULL)
+                    user_id INTEGER,
+                    details VARCHAR NOT NULL),
+                    date_modified DATE,
+                    FOREIGN_KEY (user_id) REFERENCES users (user_id)
                 """
 
         self.execute_query(query)
@@ -72,3 +77,4 @@ class DatabaseConnection:
         self.execute_query(query2)
         self.conn.commit()
         self.conn.close()
+
