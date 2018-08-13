@@ -41,7 +41,7 @@ class DatabaseConnection:
                     (user_id SERIAL PRIMARY KEY,
                     username VARCHAR(30) NOT NULL UNIQUE,
                     email_address VARCHAR(50) UNIQUE NOT NULL,
-                    password VARCHAR(50) NOT NULL)
+                    password VARCHAR(150) NOT NULL)
                 """
 
         self.execute_query(query)
@@ -55,12 +55,12 @@ class DatabaseConnection:
         query = """
                     CREATE TABLE IF NOT EXISTS entries
                     (entry_id SERIAL PRIMARY KEY,
-                    entry_date DATE NOT NULL UNIQUE,
-                    title VARCHAR(50) UNIQUE NOT NULL,
                     user_id INTEGER,
-                    details VARCHAR NOT NULL),
+                    title VARCHAR(50) UNIQUE NOT NULL,
+                    details VARCHAR NOT NULL,
+                    entry_date DATE NOT NULL,
                     date_modified DATE,
-                    FOREIGN_KEY (user_id) REFERENCES users (user_id)
+                    FOREIGN KEY(user_id) REFERENCES users (user_id))
                 """
 
         self.execute_query(query)
