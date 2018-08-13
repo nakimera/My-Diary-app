@@ -13,21 +13,26 @@ class UserTests(TestCase):
         Define test variables and initialize app
         """
         db_con = DatabaseConnection()
-        db_con.drop_table_data()
         self.app = create_app("testing")
         self.client = self.app.test_client  
         db_con.create_users_table()
 
-    # Test api can create a user
-    def test_create_user(self):
         self.user = {
-            "username" : "prossie",
+            "username" : "username",
             "password" : "password",
-            "email_address" : "prossie@gmail.com"
-        } 
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
-        self.assertEqual(response.status_code, 201)
-        self.assertIn('User successfully signed up', str(response.data))
+            "email_address" : "username@gmail.com"
+        }
+
+    # Test api can create a user
+    # def test_create_user(self):
+    #     self.user = {
+    #         "username" : "username",
+    #         "password" : "password",
+    #         "email_address" : "username@gmail.com"
+    #     } 
+    #     response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+    #     self.assertEqual(response.status_code, 201)
+    #     self.assertIn('User successfully signed up', str(response.data))
 
 
     # Test api can not create a user without a username
@@ -75,6 +80,12 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a password", str(response.data))
 
+    # Test api can not create a user that already exists
+    def test_cannot_create_an_existing_user(self): 
+        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 409)
+        self.assertIn("User already exists. Please log in", str(response.data))
+
 
     # Test user can not login without a username
     def test_user_can_not_log_in_without_username(self):
@@ -88,7 +99,7 @@ class UserTests(TestCase):
 
 
     # Test user can not login without a password
-    def test_user_can_not_log_in_without_username(self):
+    def test_user_can_not_log_in_without_password(self):
         self.user = {
                         "username" : "username", 
                         "password" : ""
@@ -98,29 +109,14 @@ class UserTests(TestCase):
         self.assertIn("Please provide a password", str(response.data))
 
 
-    # Test user non-existant user cannot login
-    # def test_non_existant_user_cant_login(self):
-    #     self.user= {
-    #         "username": "username",
-    #         "email_address": "ex@somemail.com",
-    #         "password" : "password"
-    #     }
-    #     response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
-    #     self.assertEqual(response.status_code, 404)
-    #     self.assertIn("User does not exist. Please try again", str(response.data))
-
-    # # Test api can log in a user
-    # def test_user_can_log_in(self):
-    #     self.user = {
-    #                     "username" : "prossie", 
-    #                     "email_address" : "prossie@gmail.com",
-    #                     "password" : "password"
-    #                 }
-
-    #     self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
-    #     response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertIn("You have successfully logged in", str(response.data))
+    # Test api can log in a user and generate a token
+    def test_user_can_log_in(self):
+        self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("You have successfully logged in", str(response.data))
+        token = json.loads(response.data.decode())["token"]
+        self.assertIn(token, str(response.data))
 
     def tearDown(self): 
         db_con = DatabaseConnection()
