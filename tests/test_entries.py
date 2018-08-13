@@ -23,7 +23,7 @@ class EntryTests(TestCase):
     # Test api can add an entry
     def test_create_entry(self):
         self.entry = {
-            "details": "The journey was long",
+            "details": "Living in Kabojja",
             "title": "Wakanda"
         }
         response = self.client().post('/api/v1/entries', data=json.dumps(self.user))
