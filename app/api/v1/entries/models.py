@@ -62,7 +62,6 @@ class Entry(DatabaseConnection):
                 """.format(entry_id)
 
         record = self.execute_query(query, fetch_one_record=True)
-        # return record
     
         entry = {}
         entry['entry_id'] = record[0]

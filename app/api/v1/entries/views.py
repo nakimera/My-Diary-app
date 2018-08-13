@@ -39,8 +39,6 @@ def entry(user_id):
         if not details:
             return jsonify({"message": "Please enter details"}), 400
 
-        # entry_exists = user_entry.fetch_user_entries(user_id)
-
         user_entry.create_user_entry(user_id)
 
         return jsonify({
