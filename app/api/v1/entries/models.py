@@ -62,15 +62,8 @@ class Entry(DatabaseConnection):
                 """.format(entry_id)
 
         record = self.execute_query(query, fetch_one_record=True)
-    
-        entry = {}
-        entry['entry_id'] = record[0]
-        entry['user_id'] = record[1]
-        entry['title'] = record[2]
-        entry['details'] = record[3]
-        entry['entry_date'] = record[4]
+        return record
 
-        return entry
 
         
     def modify_entries(self, title, description, entry_id):
