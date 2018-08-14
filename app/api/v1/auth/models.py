@@ -3,20 +3,21 @@ import datetime
 from flask import jsonify
 
 import jwt
+from app import APP_ENV
 from app.config import Config
 from app.db import DatabaseConnection
 
 
-class User(DatabaseConnection):
+class User():
     """
     Model for the app users
     """
 
     def __init__(self, username, email_address, password):
-        DatabaseConnection.__init__(self)
         self.username = username
         self.email_address = email_address
         self.password = password
+        self.db = DatabaseConnection(APP_ENV)
 
     def create_user(self):
         """
@@ -29,9 +30,9 @@ class User(DatabaseConnection):
                     values('{self.username}', '{self.email_address}', '{self.password}')
                 """
 
-        self.execute_query(query)
-        self.conn.commit()
-        self.conn.close()
+        self.db.execute_query(query)
+        self.db.conn.commit()
+        self.db.conn.close()
 
     def fetch_user(self, email_address):
         """
@@ -44,10 +45,9 @@ class User(DatabaseConnection):
                     WHERE email_address='{}'
                 """.format(email_address)
 
-        record = self.execute_query(query,fetch_one_record=True)
+        record = self.db.execute_query(query,fetch_one_record=True)
         return record
         
-        self.conn.close()
 
     def encode_auth_token(self, user_id):
         """

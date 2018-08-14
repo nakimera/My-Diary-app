@@ -1,12 +1,14 @@
+import os
 from app.db import DatabaseConnection
+from app import APP_ENV
 
-
-class Entry(DatabaseConnection):
+class Entry():
 
     def __init__(self, entry_date, title, details):
         self.entry_date  = entry_date
         self.title = title
         self.details = details
+        self.db = DatabaseConnection(APP_ENV)
 
     def create_user_entry(self, user_id):
         """
@@ -19,9 +21,9 @@ class Entry(DatabaseConnection):
                     values('{self.entry_date}', '{self.title}', '{user_id}', '{self.details}')
                 """
 
-        self.execute_query(query)
-        self.conn.commit()
-        self.conn.close()
+        self.db.execute_query(query)
+        self.db.conn.commit()
+        self.db.conn.close()
     
     def fetch_user_entries(self, user_id):
         """
@@ -34,7 +36,7 @@ class Entry(DatabaseConnection):
                     WHERE user_id='{}'
                 """.format(user_id)
 
-        record = self.execute_query(query, fetch_all_records=True)
+        record = self.db.execute_query(query, fetch_all_records=True)
         entries = []
 
         for entry in record:
@@ -61,7 +63,7 @@ class Entry(DatabaseConnection):
                     WHERE entry_id={}
                 """.format(entry_id)
 
-        record = self.execute_query(query, fetch_one_record=True)
+        record = self.db.execute_query(query, fetch_one_record=True)
         return record
 
 

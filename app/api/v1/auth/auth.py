@@ -34,7 +34,7 @@ def token_required(func):
                 "message" : "Invalid token. Please log in again."
             })            
 
-        except Exception as e:
+        except Exception:
             return jsonify({
                 "message" : "Token is invalid"
             }), 403

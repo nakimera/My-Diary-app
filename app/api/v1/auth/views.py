@@ -17,14 +17,14 @@ def signup():
     """
 
     data = request.get_json(force=True)
-    username = str(data.get("username", "")).strip()
-    email_address = str(data.get("email_address", None)).strip()
-    password = str(data.get("password", None)).strip()
+    username = str(data.get("username")).strip()
+    email_address = str(data.get("email_address")).strip()
+    password = str(data.get("password")).strip()
 
     validate_email(email_address)
 
     if not username:
-        return jsonify({"message": "Please provide a username",}), 400
+        return jsonify({"message": "Please provide a username"}), 400
     
     if not email_address:
         return jsonify({"message": "Please provide an email address"}), 400
@@ -67,6 +67,7 @@ def login():
 
     user = User(username, email_address, password)
     current_user = user.fetch_user(email_address)
+
     compare_password = check_password_hash(current_user[3], password)
 
     if compare_password == True and user.username == current_user[1]:

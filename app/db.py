@@ -1,6 +1,7 @@
 import psycopg2
+import os
 
-from app.config import DevelopmentConfig
+from app.config import app_config
 
 
 class DatabaseConnection:
@@ -8,14 +9,14 @@ class DatabaseConnection:
     Class to setup a database connection 
     """
 
-    def __init__(self):
+    def __init__(self, environment):
         self.conn = None
-
+        self.environment = environment
 
     def execute_query(self, query, fetch_one_record=False, fetch_all_records=False):
 
         try:
-            self.conn = psycopg2.connect(DevelopmentConfig.DATABASE_URL)
+            self.conn = psycopg2.connect(app_config[self.environment].DATABASE_URL)
             cur = self.conn.cursor()
             cur.execute(query)
 
@@ -56,7 +57,7 @@ class DatabaseConnection:
                     CREATE TABLE IF NOT EXISTS entries
                     (entry_id SERIAL PRIMARY KEY,
                     user_id INTEGER,
-                    title VARCHAR(50) UNIQUE NOT NULL,
+                    title VARCHAR(50) NOT NULL,
                     details VARCHAR NOT NULL,
                     entry_date DATE NOT NULL,
                     date_modified DATE,
@@ -71,10 +72,8 @@ class DatabaseConnection:
         """
         Method that drops tables
         """
-        query = ("DROP TABLE users CASCADE ")
+        query = ("DROP TABLE users, entries")
         self.execute_query(query)
-        query2 = ("DROP TABLE entries CASCADE ")
-        self.execute_query(query2)
         self.conn.commit()
         self.conn.close()
 

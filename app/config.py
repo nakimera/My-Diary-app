@@ -13,7 +13,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    DATABASE_URL = os.environ.get("TEST_DATABASE")
+    DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 
 class ProductionConfig(Config):
     DEBUG = False

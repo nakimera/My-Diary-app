@@ -12,27 +12,30 @@ class UserTests(TestCase):
         """
         Define test variables and initialize app
         """
-        db_con = DatabaseConnection()
-        self.app = create_app("testing")
-        self.client = self.app.test_client  
+        env = "testing"
+        db_con = DatabaseConnection(env)
+        self.app = create_app(env)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        self.client = self.app.test_client() 
         db_con.create_users_table()
 
         self.user = {
-            "username" : "username",
-            "password" : "password",
-            "email_address" : "username@gmail.com"
+            "username" : "serryjk",
+            "password" : "johnzjk",
+            "email_address" : "serembaj@gmail.com"
         }
 
+    def tearDown(self): 
+        db_con = DatabaseConnection("testing")
+        db_con.drop_table_data()
+
     # Test api can create a user
-    # def test_create_user(self):
-    #     self.user = {
-    #         "username" : "username",
-    #         "password" : "password",
-    #         "email_address" : "username@gmail.com"
-    #     } 
-    #     response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
-    #     self.assertEqual(response.status_code, 201)
-    #     self.assertIn('User successfully signed up', str(response.data))
+    def test_create_user(self):
+        with self.client:
+            response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
+            self.assertEqual(response.status_code, 201)
+            self.assertIn('User successfully signed up', str(response.data))
 
 
     # Test api can not create a user without a username
@@ -42,7 +45,7 @@ class UserTests(TestCase):
                         "password" : "password", 
                         "email_address" : "prossie@gmail.com"
                     }
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a username", str(response.data))
 
@@ -54,7 +57,7 @@ class UserTests(TestCase):
                         "password" : "password", 
                         "email_address" : ""
                     }
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide an email address", str(response.data))
 
@@ -65,7 +68,7 @@ class UserTests(TestCase):
                         "password" : "password", 
                         "email_address" : "p"
                     }
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a valid email address", str(response.data))
     
@@ -76,13 +79,14 @@ class UserTests(TestCase):
                         "password" : "", 
                         "email_address" : "prossie@gmail.com"
                     }
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a password", str(response.data))
 
     # Test api can not create a user that already exists
     def test_cannot_create_an_existing_user(self): 
-        response = self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
+        self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 409)
         self.assertIn("User already exists. Please log in", str(response.data))
 
@@ -93,7 +97,7 @@ class UserTests(TestCase):
                         "username" : "", 
                         "password" : "password"
                     }
-        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a username", str(response.data))
 
@@ -104,20 +108,18 @@ class UserTests(TestCase):
                         "username" : "username", 
                         "password" : ""
                     }
-        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 400)
         self.assertIn("Please provide a password", str(response.data))
 
 
     # Test api can log in a user and generate a token
     def test_user_can_log_in(self):
-        self.client().post('/api/v1/auth/signup', data=json.dumps(self.user))
-        response = self.client().post('/api/v1/auth/login', data=json.dumps(self.user))
+        self.client.post('/api/v1/auth/signup', data=json.dumps(self.user))
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(self.user))
         self.assertEqual(response.status_code, 200)
         self.assertIn("You have successfully logged in", str(response.data))
         token = json.loads(response.data.decode())["token"]
         self.assertIn(token, str(response.data))
 
-    def tearDown(self): 
-        db_con = DatabaseConnection()
-        db_con.drop_table_data()
+    
