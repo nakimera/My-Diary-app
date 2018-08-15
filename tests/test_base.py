@@ -17,6 +17,7 @@ class BaseClass(TestCase):
         self.app_context.push()
         self.client = self.app.test_client() 
         db_con.create_users_table()
+        db_con.create_entries_table()
 
         self.user = json.dumps({
             "username" : "prossie",
@@ -46,6 +47,11 @@ class BaseClass(TestCase):
             "username" : "prossie", 
             "password" : "", 
             "email_address" : "prossie@gmail.com"
+        })
+
+        self.entry = json.dumps({
+            "title" : "Living in Kabojja",
+            "details" : "It takes alot"
         })
 
     def tearDown(self): 
