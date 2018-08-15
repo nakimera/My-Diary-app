@@ -31,7 +31,7 @@ def token_required(func):
 
         except jwt.InvalidTokenError:
             return jsonify({
-                "message" : "Invalid token. Please log in again."
+                "message" : "Invalid token. Please try again."
             })            
 
         except Exception:

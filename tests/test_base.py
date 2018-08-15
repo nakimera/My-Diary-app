@@ -54,6 +54,7 @@ class BaseClass(TestCase):
             "details" : "It takes alot"
         })
 
+
     def tearDown(self): 
         db_con = DatabaseConnection("testing")
         db_con.drop_table_data()
