@@ -20,3 +20,8 @@ services:
 # create database
 before_script:
   - psql -c 'create database test;' -U postgres
+
+# set environment variables
+env:
+  - TEST_DATABASE_URL=postgresql://postgres:postgres@localhost/test
+  - APP_ENV=testing
