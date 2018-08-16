@@ -57,4 +57,60 @@ class EntryTests(BaseClass):
         })
         self.assertEqual(response.status_code, 201)
         self.assertIn('Entry successfully added', str(response.data))
+        # self.assertIn('{}'.format(self.), str(response.data))
         
+    # Test api can fetch all user entries
+    def test_get_entries(self):
+        self.client.post(
+            '/api/v1/entries', data=self.entry,
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        self.client.post(
+            '/api/v1/entries', data=self.entry1, 
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        response = self.client.get(
+            '/api/v1/entries',
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('All entries successfully retrieved', str(response.data))
+        # self.assertIn('{}'.format(self.entry), str(response.data))
+        
+    # Test api can fetch a single user entry
+    def test_get_entry_by_id(self):
+        self.client.post(
+            '/api/v1/entries', data=self.entry,
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        self.client.post(
+            '/api/v1/entries', data=self.entry1, 
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        response = self.client.get(
+            '/api/v1/entries/2',
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Entry successfully retrieved', str(response.data))
+
+    # Test api can not fetch a single user entry with an invalid entry id
+    def test_invalid_entry_id(self):
+        self.client.post(
+            '/api/v1/entries', data=self.entry,
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        response = self.client.get(
+            '/api/v1/entries/2',
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        self.assertEqual(response.status_code, 404)
+        self.assertIn('Entry does not exist. Try again', str(response.data))
