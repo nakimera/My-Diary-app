@@ -4,15 +4,10 @@ import json
 class UserTests(BaseClass):
     """This class represents the User test case"""
 
-    # Test api can create a user
+    # # Test api can create a user
     def test_create_user(self):
-        response = self.client.post(
-            '/api/v1/auth/signup', 
-            data=self.user, 
-            content_type="application/json"
-        )
-        self.assertEqual(response.status_code, 201)
-        self.assertIn('User successfully signed up', str(response.data))
+        self.assertEqual(self.reigister.status_code, 201)
+        self.assertIn('User successfully signed up', str(self.reigister.data))
 
 
     # Test api can not create a user without a username

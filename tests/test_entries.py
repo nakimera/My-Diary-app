@@ -114,3 +114,17 @@ class EntryTests(BaseClass):
         })
         self.assertEqual(response.status_code, 404)
         self.assertIn('Entry does not exist. Try again', str(response.data))
+
+    # Test api can modify a user entry
+    def test_modify_user_entry(self):
+        self.client.post(
+            '/api/v1/entries', data=self.entry,
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        response = self.client.put(
+            '/api/v1/entries/2',
+            content_type="application/json", 
+            headers={ "access-token": self.token
+        })
+        # self.assertEqual(response.status_code, 400)
