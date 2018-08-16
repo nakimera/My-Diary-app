@@ -54,6 +54,34 @@ class BaseClass(TestCase):
             "details" : "It takes alot"
         })
 
+        self.entry1 = json.dumps({
+            "title" : "Andela Bootcamp",
+            "details" : "The struggle continues"
+        })
+
+        self.missing_title = json.dumps({
+            "title" : "",
+            "details" : "some details"
+        })
+
+        self.missing_details = json.dumps({
+            "title" : "some title",
+            "details" : ""
+        })
+
+        self.reigister = self.client.post(
+            '/api/v1/auth/signup', 
+            data=self.user,
+            content_type="application/json"
+        )
+
+        self.login = self.client.post(
+            '/api/v1/auth/login', 
+            data=self.user,
+            content_type="application/json"
+        )
+
+        self.token = json.loads(self.login.data.decode())["token"]
 
     def tearDown(self): 
         db_con = DatabaseConnection("testing")
