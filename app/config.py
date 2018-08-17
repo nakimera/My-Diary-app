@@ -17,6 +17,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    DATABASE_URL = os.environ.get("DATABASE_URL")
     
 app_config = {
     "development" : DevelopmentConfig,
