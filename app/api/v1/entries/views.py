@@ -25,7 +25,7 @@ def entry(user_id):
     if request.method == 'POST':
         """
         Adds a user entry
-        """
+        """    
 
         data = request.get_json(force=True)
         title = data.get("title", None)
@@ -75,6 +75,7 @@ def indiv_entry(user_id, entry_id):
             "message": "Entry does not exist. Try again"
         }), 404
 
+
     if request.method == 'GET':
         entry = {}
         entry['entry_id'] = one_entry[0]
@@ -92,16 +93,19 @@ def indiv_entry(user_id, entry_id):
         """
         Modifies an entry
         """
-        print(one_entry)
         data = request.get_json(force=True)
+        print('--------------------------entry--------------')
+        print(one_entry)
 
-        # for key, value in data.items():
-        #     if key == "title":
-        #         one_entry[2] = value
-        #     elif key == "details":
-        #         one_entry.details = value
+        # date_modified = str(datetime.datetime.now()).strip()
+        
 
-        one_entry.modify_entries(entry_id, title, description)
+        for key, value in data.items():
+            if key == "title":
+                one_entry[2] = value
+            elif key == "details":
+                one_entry.details = value
+
 
         return jsonify({
                 "message": "Entry successfully updated",
