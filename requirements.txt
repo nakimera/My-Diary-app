@@ -32,3 +32,4 @@ Werkzeug==0.14.1
 wrapt==1.10.11
 coveralls
 python-coveralls
+gunicorn==19.9.0
