@@ -79,7 +79,7 @@ def indiv_entry(user_id, entry_id):
     if request.method == 'GET':
         entry = {}
         entry['entry_id'] = one_entry[0]
-        entry['user_id'] = one_entry[1]
+        # entry['user_id'] = one_entry[1]
         entry['title'] = one_entry[2]
         entry['details'] = one_entry[3]
         entry['entry_date'] = one_entry[4]
@@ -97,7 +97,7 @@ def indiv_entry(user_id, entry_id):
         print('--------------------------entry--------------')
         print(one_entry)
 
-        # date_modified = str(datetime.datetime.now()).strip()
+      
         
 
         for key, value in data.items():

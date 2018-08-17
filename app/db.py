@@ -60,7 +60,6 @@ class DatabaseConnection:
                     title VARCHAR(50) NOT NULL,
                     details VARCHAR NOT NULL,
                     entry_date DATE NOT NULL,
-                    date_modified DATE,
                     FOREIGN KEY(user_id) REFERENCES users (user_id))
                 """
 
