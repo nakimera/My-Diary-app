@@ -123,8 +123,9 @@ class EntryTests(BaseClass):
             headers={ "access-token": self.token
         })
         response = self.client.put(
-            '/api/v1/entries/2',
+            '/api/v1/entries/2', data=self.entry1,
             content_type="application/json", 
             headers={ "access-token": self.token
         })
-        # self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Entry successfully updated', str(response.data))
