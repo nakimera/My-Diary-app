@@ -4,7 +4,7 @@ from app import APP_ENV
 
 class Entry():
 
-    def __init__(self, entry_date, title, details, date_modified=None):
+    def __init__(self, entry_date, title, details):
         self.entry_date  = entry_date
         self.title = title
         self.details = details
@@ -67,15 +67,17 @@ class Entry():
         return record
 
 
-        
-    def modify_entries(self, title, description, entry_id):
+    def modify_entries(self, entry_id):
         """
         Method that mofidies a user entry
         """
 
-        query = """
-                    UPDATE entries  WHERE entry_id={} SET title = '' details=''
-                """.format(entry_id)
+        query = f"""
+                    UPDATE entries 
+                    SET title = '{self.title}', details= '{self.details}'
+                    WHERE entry_id={entry_id}
+                """
 
-        record = self.db.execute_query(query,fetch_one_record=True)
-        return record
+        self.db.execute_query(query)
+        self.db.conn.commit()
+        self.db.conn.close()
