@@ -123,7 +123,7 @@ class EntryTests(BaseClass):
             headers={ "access-token": self.token
         })
         response = self.client.put(
-            '/api/v1/entries/2', data=self.entry1,
+            '/api/v1/entries/1', data=self.entry1,
             content_type="application/json", 
             headers={ "access-token": self.token
         })
