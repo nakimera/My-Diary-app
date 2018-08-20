@@ -1,75 +1,112 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://my-diary-app-np.herokuapp.com/api/v1
 
 # mydiaryapp
 
 My Diary app api allows users create an account, login, add, view and modify diary entries.
 
 
-## Questions Collection [/questions]
+## Create user account [/auth/signup]
 
-### List All Entries [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "entries": [
-                    {
-                        "title": "Bootcamp",
-                        "Details":"Bootcamp is meant ot be hectic"
-                    }, {
-                        "title": "Kabojja",
-                        "votes": "I come from Kabojja"
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Signup [POST]
+You may create your own user account using this action. It takes a JSON
+object containing a username, password and email address.
 
 + Request (application/json)
 
+            {
+                "username" : "username",
+                "password" : "password",
+                "email_address" : "example@gmail.com"
+            }
+
++ Response 400 (application/json)
+
+            {
+                "message" : "Please provide a username"
+            }
+            
++ Response 400 (application/json)
+
+            {
+                "message" : "Please provide an email address"
+            }
+
++ Response 400 (application/json)
+
+            {
+                "message" : "Please provide a valid email address"
+            }
+
++ Response 201 (application/json)
+
+            {
+                "message" : "User successfully signed up"
+            }
+
++ Response 409 (application/json)
+
+            {
+                "message" : "message": "User already exists. Please log in"
+            }
+
+## Log into user account [/auth/login]
+
+### Login [POST]
+
+You may login using this action. It takes a JSON
+object containing a username, password and email_address.
+
++ Request (application/json)
+
+            {
+                "username" : "username",
+                "password" : "password",
+                "email_address" : "example@gmail.com"
+            }
+
++ Response 200 (application/json)
+
+            {
+                "message": "You have successfully logged in",
+                "token" : token 
+            }
+
+## Entries collection [/entries]
+
+### Add entry [POST]
+
+You may add a diary entry using this action. It requires an access token in the headers.
+It takes in a JSON object containing a title and details
+
++ Request (application/json)
+
+    + Headers 
+    
+            access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQ3NzExODcsImlhdCI6MTUzNDc2NTc4Nywic3ViIjoxfQ.hhw3Wtf7-MnexHC4sOReQbnV1cbfBI2Rh2PncCWCK_E
+            
+    + Body
+
+            {
+                "title": "My title",
+                "details": "My details"
+            }
+
+        
++ Response 403 (application/json)
+
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "message" : "Token is missing"
+        }
+        
++ Response 403 (application/json)
+
+        {
+            "message" : "Signature expired. Please log in again."
         }
 
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+        {
+            "message": "Entry successfully added"
+        }
