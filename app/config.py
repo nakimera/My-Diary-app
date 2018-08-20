@@ -1,6 +1,4 @@
-db_user = 'postgres'
-user_password = 'postgres'
-db_name = 'mydiary'
+import os
 
 class Config:
     SECRET_KEY = "TcQsWISFjRG4243XobHPIaDxMioisOba"
@@ -11,14 +9,15 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
-    DATABASE_URL = 'postgresql://'+ db_user +': '+ user_password + '@localhost/'+ db_name +''
+    DATABASE_URL = os.environ.get("DATABASE_URL")
 
 class TestingConfig(Config):
     TESTING = True
-    DATABASE_URL = ''
+    DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 
 class ProductionConfig(Config):
     DEBUG = False
+    DATABASE_URL = os.environ.get("DATABASE_URL")
     
 app_config = {
     "development" : DevelopmentConfig,

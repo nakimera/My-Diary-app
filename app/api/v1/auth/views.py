@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
+from flask import Blueprint, jsonify, request
+from werkzeug.security import check_password_hash, generate_password_hash
+
 import jwt
-from validate_email import validate_email
 from app.api.v1.auth.models import User
+from validate_email import validate_email
 
 mod = Blueprint('auth', __name__)
 
@@ -16,14 +17,14 @@ def signup():
     """
 
     data = request.get_json(force=True)
-    username = str(data.get("username", "")).strip()
-    email_address = str(data.get("email_address", None)).strip()
-    password = str(data.get("password", None)).strip()
+    username = str(data.get("username")).strip()
+    email_address = str(data.get("email_address")).strip()
+    password = str(data.get("password")).strip()
 
     validate_email(email_address)
 
     if not username:
-        return jsonify({"message": "Please provide a username",}), 400
+        return jsonify({"message": "Please provide a username"}), 400
     
     if not email_address:
         return jsonify({"message": "Please provide an email address"}), 400
@@ -66,9 +67,10 @@ def login():
 
     user = User(username, email_address, password)
     current_user = user.fetch_user(email_address)
-    compare_password = check_password_hash(current_user[2], password)
 
-    if compare_password == True:
+    compare_password = check_password_hash(current_user[3], password)
+
+    if compare_password == True and user.username == current_user[1]:
         logged_in_user = current_user
         user_id = logged_in_user[0]
         token = user.encode_auth_token(user_id)
