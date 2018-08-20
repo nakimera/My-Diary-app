@@ -94,6 +94,9 @@ The following endpoints can be tested using postman
 | PUT      | /api/v1/entries/id      | Modify an entry|
 
 ### Running tests
+- Set APP_ENV value to testing
+
+- Open a new terminal and cd to the tests folder
 
  ```
 $ cd ~/my-diary-app/tests
