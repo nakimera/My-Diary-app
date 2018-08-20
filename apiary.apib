@@ -82,7 +82,7 @@ It takes in a JSON object containing a title and details
 
     + Headers 
     
-            access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQ3NzExODcsImlhdCI6MTUzNDc2NTc4Nywic3ViIjoxfQ.hhw3Wtf7-MnexHC4sOReQbnV1cbfBI2Rh2PncCWCK_E
+            access-token:token
             
     + Body
 
@@ -118,11 +118,35 @@ You may view all your diary entries using this action. It requires an access tok
 
     + Headers
             
-            access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQ3NzExODcsImlhdCI6MTUzNDc2NTc4Nywic3ViIjoxfQ.hhw3Wtf7-MnexHC4sOReQbnV1cbfBI2Rh2PncCWCK_E
+            access-token:token
             
 
 + Response 200 (application/json)
 
         {
             "message" : "All entries successfully retrieved"
+        }
+        
+## Individual entry collection [/entries/<entryId>]
+
+### Get an entry by entryId [POST]
+
+You may get an entry by entryId with this action. It requires an access token in the headers.
+
+
++ Request (application/json)
+
+    + Headers 
+    
+            access-token:token
+            
++ Response 200 (application/json)
+
+        {
+            "message": "Entry successfully retrieved"
+        }
++ Response 404 (application/json)
+
+        {
+            "message": "Entry does not exist. Try again"
         }
