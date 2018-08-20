@@ -9,18 +9,16 @@ My Diary is an online journal where users can pen down their thoughts and feelin
 ### Prerequisites
 You will need the following software running on your machine to get started
 
-* Python 3.6
-is an intepreted high-level programming language that was used for this application
+* Python 3.6 (Intepreted high-level programming language that was used for this application)
 
-* pip
-is a package management system used to install and manage software packages written in python
+* pip (Package management system used to install and manage software packages written in python)
 
-* Postgres database
+* Postgres database (Open source relational database management system )
 
 ### Technologies used
-* Flask
-* Pytest
-* Pylint
+* Flask (Python framework)
+* Pytest (Python testing framework)
+* Pylint (Bug and quality checker for the Python programming language)
 
 Download python from [here](https://www.python.org/getit/)
 
@@ -29,9 +27,9 @@ Download pip from [here](https://pip.pypa.io/en/stable/reference/pip_download/)
 Download Postgres database software from [here]( https://www.postgresql.org/download/)
 
 ### Setting up the application
-These are the steps on how to get a development environment of the application running on your machine
+These are the steps on how to get the application running on your machine
 
- - cd to where you want to create your repository
+ - In your terminal, cd to where you want to create your repository
 
 - Clone the project repo
 ```
@@ -59,17 +57,32 @@ Install requirements
 pip install -r requirements.txt
 ```
 
-Run the development server
+### Setting up environment variables for the development and testing environments
+- On windows, search for Edit environment variables
+
+- Under user variables, select New
+
+- Add the following environment variables using the respective variable name & variable value pairs
+
+| Variable name         | Variable value         | 
+| ----------------------|:-------------------------------------------------------:| 
+| APP_ENV               | None                                  |                                       
+| DATABASE_URL          | postgresql://user:password@localhost/database_name      |
+| TEST_DATABASE_URL     | postgresql://user:password@localhost/test_database_name |
+
+### Running the development server
+
+- Set APP_ENV value to development
+
+- Run the app with the command below
+
 ```
 $ python run.py
 ```
 
-### Setting up the database
-Make sure postgres database is installed on your machine
-
 The app should now be running on http://localhost:5000
 
-The following endpoints can be tested
+The following endpoints can be tested using postman
 
 | METHOD       | Endpoint           | Functionality  |
 | ------------- |:-------------:| -----|
@@ -80,18 +93,21 @@ The following endpoints can be tested
 | POST | /api/v1/entries      | Add an entry |
 | PUT      | /api/v1/entries/id      | Modify an entry|
 
-### How to run tests
-- Install pytest 
-```
-$ pip install pytest
-```
- - Run tests
+### Running tests
+
  ```
 $ cd ~/my-diary-app/tests
-$ pytest test_entry.py
+$ pytest 
+ ```
+
+ - Running tests with coverage
+ ```
+ $ pytest --cov
  ```
 
 ## Deployment  sites
 The user interfaces are hosted on github pages at https://nakimera.github.io/My-Diary/
 
-The api is hosted on heroku at 
+The api is hosted on heroku at https://my-diary-app-np.herokuapp.com
+
+Documentation on how to use the endpoints can be found at ...
