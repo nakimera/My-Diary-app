@@ -113,4 +113,4 @@ The user interfaces are hosted on github pages at https://nakimera.github.io/My-
 
 The api is hosted on heroku at https://my-diary-app-np.herokuapp.com
 
-Documentation on how to use the endpoints can be found at ...
+Documentation on how to use the endpoints can be found at https://mydiaryapp.docs.apiary.io/#
