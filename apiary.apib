@@ -55,7 +55,7 @@ object containing a username, password and email address.
 ### Login [POST]
 
 You may login using this action. It takes a JSON
-object containing a username, password and email_address.
+object containing a username, password and email_address. It returns a token you will need to create, view and modify entries.
 
 + Request (application/json)
 
@@ -149,4 +149,28 @@ You may get an entry by entryId with this action. It requires an access token in
 
         {
             "message": "Entry does not exist. Try again"
+        }
+        
+### Modify entry [PUT]
+
+You may modify an entry  with this action. It requires an access token in the headers. 
+It takes in a title or details or both
+
++ Request (application/json)
+
+    + Headers 
+    
+            access-token:token
+            
+    + Body
+
+            {
+                "title": "My updated title",
+                "details": "My updated details"
+            }
+            
++ Response 200 (application/json)
+
+        {
+            "message": "Entry successfully updated"
         }
