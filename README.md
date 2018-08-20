@@ -20,11 +20,11 @@ You will need the following software running on your machine to get started
 * Pytest (Python testing framework)
 * Pylint (Bug and quality checker for the Python programming language)
 
-Download python from [here](https://www.python.org/getit/)
+[Download python](https://www.python.org/getit/)
 
-Download pip from [here](https://pip.pypa.io/en/stable/reference/pip_download/)
+[Download pip](https://pip.pypa.io/en/stable/reference/pip_download/)
 
-Download Postgres database software from [here]( https://www.postgresql.org/download/)
+[Download Postgres database software]( https://www.postgresql.org/download/)
 
 ### Setting up the application
 These are the steps on how to get the application running on your machine
@@ -109,8 +109,8 @@ $ pytest
  ```
 
 ## Deployment  sites
-The user interfaces are hosted on github pages at https://nakimera.github.io/My-Diary/
+[User interfaces](https://nakimera.github.io/My-Diary/)
 
-The api is hosted on heroku at https://my-diary-app-np.herokuapp.com
+[Heroku](https://my-diary-app-np.herokuapp.com) 
 
-Documentation on how to use the endpoints can be found at https://mydiaryapp.docs.apiary.io/#
+[Api Documentation](https://mydiaryapp.docs.apiary.io/#)
