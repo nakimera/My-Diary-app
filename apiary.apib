@@ -68,8 +68,7 @@ object containing a username, password and email_address.
 + Response 200 (application/json)
 
             {
-                "message": "You have successfully logged in",
-                "token" : token 
+                "message": "You have successfully logged in"
             }
 
 ## Entries collection [/entries]
@@ -109,4 +108,21 @@ It takes in a JSON object containing a title and details
 
         {
             "message": "Entry successfully added"
+        }
+        
+### View all entries [GET]
+
+You may view all your diary entries using this action. It requires an access token in the headers.
+
++ Request (application/json)
+
+    + Headers
+            
+            access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQ3NzExODcsImlhdCI6MTUzNDc2NTc4Nywic3ViIjoxfQ.hhw3Wtf7-MnexHC4sOReQbnV1cbfBI2Rh2PncCWCK_E
+            
+
++ Response 200 (application/json)
+
+        {
+            "message" : "All entries successfully retrieved"
         }
