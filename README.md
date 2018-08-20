@@ -9,17 +9,11 @@ My Diary is an online journal where users can pen down their thoughts and feelin
 ### Prerequisites
 You will need the following software running on your machine to get started
 
-* Python 3.6
+* Python 3.6 (Intepreted high-level programming language that was used for this application)
 
-python is an intepreted high-level programming language that was used for this application
+* pip (Package management system used to install and manage software packages written in python)
 
-* pip
-
-Pip  is a package management system used to install and manage software packages written in python
-
-* Postgres database 
-
-Postgres database is an open source relational database management system (DBMS)
+* Postgres database (Open source relational database management system )
 
 ### Technologies used
 * Flask (Python framework)
