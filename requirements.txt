@@ -33,3 +33,4 @@ wrapt==1.10.11
 coveralls
 python-coveralls
 gunicorn==19.9.0
+Flask-Cors==3.0.6

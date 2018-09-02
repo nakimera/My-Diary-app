@@ -3,7 +3,6 @@ import os
 
 from app.config import app_config
 
-
 class DatabaseConnection:
     """
     Class to setup a database connection 

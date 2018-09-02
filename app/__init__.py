@@ -11,6 +11,7 @@ def create_app(config_name):
     app.config.from_object(app_config[str(config_name)])
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
+    
 
     from app.api.v1.auth.views import mod as auth
     from app.api.v1.entries.views import mod as entry
