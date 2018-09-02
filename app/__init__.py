@@ -2,12 +2,15 @@ from flask import Flask
 import os
 from app.config import app_config
 from app.db import DatabaseConnection
+from flask_cors import CORS, cross_origin
 
 APP_ENV = os.environ.get('APP_ENV', 'development')
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[str(config_name)])
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     from app.api.v1.auth.views import mod as auth
     from app.api.v1.entries.views import mod as entry
